@@ -38,8 +38,22 @@
             </main>
         </div>
 
-        @stack('modals')
+@stack('modals')
 
-        @livewireScripts
-    </body>
+@livewireScripts
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@if(session('swal'))
+<script>
+Swal.fire({
+    icon: "{{ session('swal.icon') }}",
+    title: "{{ session('swal.title') }}",
+    text: "{{ session('swal.text') }}",
+    confirmButtonText: 'OK'
+});
+</script>
+@endif
+
+</body>
 </html>

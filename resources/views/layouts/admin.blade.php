@@ -17,10 +17,13 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-        
+ 
         <!-- Font awsome -->
         <script src="https://kit.fontawesome.com/65079d3bf2.js" crossorigin="anonymous"></script>
         
+        <!-- SweetAlert -->
+         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
         <!-- WireUI -->
         <wireui:scripts />
         <!-- Styles -->
@@ -31,16 +34,30 @@
 
       @include('layouts.includes.admin.sidebar')
       
-<div class="p-4 sm:ml-64 mt-14">
-  <div class="m-14">
-    @include('layouts.includes.admin.breadcrumb')  
+  <div class="p-4 sm:ml-64 mt-14">
+      <div class="mt-14 flex justify-between items-center w-full">
+          @include('layouts.includes.admin.breadcrumb')
+          @isset($action)
+              <div>
+                  {{ $action }}
+              </div>
+          @endisset
+      </div>
+      {{ $slot }}
   </div>
-  {{$slot}}
-</div>
+
+
 
 
         @stack('modals')
- 
+
+        {{-- Mostrar Sweet Alert --}}
+        @if (@session('swal'))
+            <script>
+                Swal.fire(@json(session('swal')));
+            </script>
+        @endif
+
         @livewireScripts
         <body>
     @yield('content')

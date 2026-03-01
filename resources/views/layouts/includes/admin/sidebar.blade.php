@@ -1,39 +1,20 @@
 @php
-$links=[
+$links = [
    [
-   'name' => 'Dashboard',
-   'icon' => 'fa-solid fa-user',
-   'href' => route('admin.dashboard'),
-   'active' => request()->routeIs('admin.dashboard'), 
-   ],
-   [
-      'header'=> 'Administración',
-
+      'name' => 'Dashboard',
+      'icon' => 'fa-solid fa-user',
+      'href' => route('admin.dashboard'),
+      'active' => request()->routeIs('admin.dashboard'),
    ],
    [
-   'name' => 'Tienda en linea',
-   'icon' => 'fa-solid fa-gauge',
-   'href' => route('admin.dashboard'),
-   'active' => request()->routeIs('admin.dashboard'),
-   'submenu'=>[
-      [
-         'name'=>'Productos',
-         'href'=>'#',
-         'active'=> false,
-      ],
-      [
-         'name'=>'Categorias',
-         'href'=>'#',
-         'active'=> false,
-      ],
-      [
-         'name'=>'Pedidos',
-         'href'=>'#',
-         'active'=> false,
-      ],
+      'header' => 'Gestión',
    ],
+   [
+      'name' => 'Roles y permisos',
+      'icon' => 'fa-solid fa-shield-halved',
+      'href' => route('admin.roles.index'),
+      'active' => request()->routeIs('admin.roles.*'),
    ],
-
 ];
 @endphp
 <aside id="top-bar-sidebar" class="fixed top-0 left-0 z-40 w-64 h-full transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
@@ -74,7 +55,7 @@ $links=[
             @endisset
             @endisset
          </li>
-         @endforeach 
+         @endforeach
 
       </ul>
    </div>
