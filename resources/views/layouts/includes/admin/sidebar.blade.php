@@ -15,6 +15,12 @@ $links = [
       'href' => route('admin.roles.index'),
       'active' => request()->routeIs('admin.roles.*'),
    ],
+   [
+      'name' => 'Usuarios',
+      'icon' => 'fa-solid fa-users',
+      'href' => route('admin.users.index'),
+      'active' => request()->routeIs('admin.users.*'),
+   ],
 ];
 @endphp
 <aside id="top-bar-sidebar" class="fixed top-0 left-0 z-40 w-64 h-full transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
