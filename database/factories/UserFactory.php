@@ -36,8 +36,18 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'profile_photo_path' => null,
             'current_team_id' => null,
+
+        //nuevos campos
+        'id_number' => strtoupper($this->faker->bothify('ID-#####')),
+        'phone' => $this->faker->numerify('9999999999'),//10 DIGITOS TIPICO
+        'address' => $this->faker->streetAddress(),
+
         ];
+
+
     }
+
+
 
     /**
      * Indicate that the model's email address should be unverified.
