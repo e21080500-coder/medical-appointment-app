@@ -9,7 +9,7 @@
 
 ]">
 
-@livewire('admin.datatables.patients-table')
+@livewire('admin.datatables.patient-table')
 
 
 

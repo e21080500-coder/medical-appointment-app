@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('password');
 
             //Nuevos valores asignados
-            $table->string('id_number');
-            $table->string('phone');
-            $table->string('address');
+            $table->string('id_number')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
 
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
