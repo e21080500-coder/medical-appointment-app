@@ -1,3 +1,27 @@
+{{-- Logica de php para manejar errores y controlar la pestaña activa --}}
+
+@php
+//definimos que campos pertenecen a cada pestana para detectar errores
+$errorGroups = [
+    'antecedentes' => ['allergies', 'chronic_conditions', 'surgical_history', 'family_history'],
+    'informacion-general' => ['blood_type_id', 'observations'],
+    'contacto-emergencia' => ['emergency_contact_name', 'emergency_contact_phone', 'emergency_contact_relationship'],
+];
+
+//pestana por defecto
+$initialTab = 'datos-personales';
+
+//si hay errores, buscamos en que grupo estan para abrir esta pestana automaticamente
+foreach ($errorGroups as $tabName => $fields) {
+    if ($errors->hasAny($fields)) {
+        $initialTab = $tabName;
+        break;
+    }
+}
+
+
+@endphp
+
 <x-admin-layout title="Pacientes" :breadcrumbs="[
     [
         'name' => 'Dashboard',
@@ -47,11 +71,10 @@
 
 <!-- Tabs de navegacion -->
 <x-wire-card>
-<div x-data="{ tab: 'datos-personales' }">
+<div x-data="{ tab: '{{ $initialTab }}' }">
 
 <!-- menu de pestañas -->
-<div class="border-b border-gray-200">
-<ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500">
+
 
 <!-- tab 1: datos personales -->
 <li class="me-2">
@@ -67,49 +90,70 @@
 </li>
 
 <!-- tab 2: antecedentes -->
+@php $hasError = $errors->hasAny($errorGroups['antecedentes']); 
+@endphp
 <li class="me-2">
     <a href="#" @click.prevent="tab = 'antecedentes'"
     :class="{
-    'text-blue-600 border-blue-600 active' : tab === 'antecedentes',
-    'border-transparent hover:text-blue-600 hover:border-gray-300' : tab !== 'antecedentes'
+    'text-red-600 border-red-600' : {{$hasError ? 'true' : 'false'}} && tab !== 'antecedentes',
+    'text-blue-600 border-blue-600 active' : tab === 'antecedentes' && {{$hasError ? 'true' : 'false'}}, 
+    'text-red-600 border-red-600 active' : tab === 'antecedentes' && {{$hasError ? 'true' : 'false'}},
+    'border-transparent hover:text-blue-600 hover:border-gray-300' : tab !== 'antecedentes && {{$hasError ? 'true' : 'false'}}',
     }"
-     class="inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg group">
+     class="inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg group transition-colors duration-200 {{$hasError ? 'text-red 600 border-red-600' : '' }}">
         <i class="fa-solid fa-file-lines me-2"></i>
         Antecedentes
+        @if($hasError)
+            <i class="fa-solid fa-circle-exclamation ms-2 animate-pulse"></i>
+            @endif
     </a>
 </li>
 
 <!-- tab 3: informacion general -->
+@php $hasError = $errors->hasAny($errorGroups['informacion-general']); 
+@endphp
 <li class="me-2">
     <a href="#" @click.prevent="tab = 'informacion-general'"
     :class="{
-    'text-blue-600 border-blue-600 active' : tab === 'informacion-general',
-    'border-transparent hover:text-blue-600 hover:border-gray-300' : tab !== 'informacion-general'
+    'text-red-600 border-red-600' : {{$hasError ? 'true' : 'false'}} && tab !== 'informacion-general',
+    'text-blue-600 border-blue-600 active' : tab === 'informacion-general' && {{$hasError ? 'true' : 'false'}}, 
+    'text-red-600 border-red-600 active' : tab === 'informacion-general' && {{$hasError ? 'true' : 'false'}},
+    'border-transparent hover:text-blue-600 hover:border-gray-300' : tab !== 'informacion-general && {{$hasError ? 'true' : 'false'}}',
     }"
-     class="inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg group">
+     class="inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg group transition-colors duration-200 {{$hasError ? 'text-red 600 border-red-600' : '' }}">
         <i class="fa-solid fa-info me-2"></i>
         Informacion general
+        @if($hasError)
+            <i class="fa-solid fa-circle-exclamation ms-2 animate-pulse"></i>
+            @endif
     </a>
 </li>
 
 <!-- tab 4: contacto de emergencia -->
+@php $hasError = $errors->hasAny($errorGroups['contacto-emergencia']); 
+@endphp
 <li class="me-2">
     <a href="#" @click.prevent="tab = 'contacto-emergencia'"
     :class="{
-    'text-blue-600 border-blue-600 active' : tab === 'contacto-emergencia',
-    'border-transparent hover:text-blue-600 hover:border-gray-300' : tab !== 'contacto-emergencia'
+    'text-red-600 border-red-600' : {{$hasError ? 'true' : 'false'}} && tab !== 'contacto-emergencia',
+    'text-blue-600 border-blue-600 active' : tab === 'contacto-emergencia' && {{$hasError ? 'true' : 'false'}}, 
+    'text-red-600 border-red-600 active' : tab === 'contacto-emergencia' && {{$hasError ? 'true' : 'false'}},
+    'border-transparent hover:text-blue-600 hover:border-gray-300' : tab !== 'contacto-emergencia && {{$hasError ? 'true' : 'false'}}',
     }"
-     class="inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg group">
+     class="inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg group transition-colors duration-200 {{$hasError ? 'text-red 600 border-red-600' : '' }}">
         <i class="fa-solid fa-heart me-2"></i>
         Contacto de emergencia
+        @if($hasError)
+            <i class="fa-solid fa-circle-exclamation ms-2 animate-pulse"></i>
+            @endif
     </a>
 </li>
 
-</ul>
+
 </div>
 
 {{-- contenido de los tabs --}}
-<div class="px-4 mt-4">
+
 
 {{--Contenido de Tab 1: Datos personales --}}
 <div x-show="tab === 'datos-personales'">
@@ -200,9 +244,10 @@
         />
 
         <x-wire-phone 
-            label="Teléfono de contacto" 
-            name="emergency_contact_phone" mask="(999) 999-9999" placeholder="(999) 999-9999"
-            value="{{ old('emergency_contact_phone', $patient->emergency_contact_phone) }}" 
+                   label="Teléfono de contacto"
+    name="emergency_contact_phone"
+    placeholder="Ingrese teléfono"
+    value="{{ old('emergency_contact_phone', $patient->emergency_contact_phone) }}"
         />
 
         <x-wire-input 
@@ -214,7 +259,7 @@
 </div>
 
     </div>
-</div>
+
 </x-wire-card>
 
 </form>
