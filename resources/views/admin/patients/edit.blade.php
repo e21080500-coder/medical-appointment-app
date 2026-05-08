@@ -96,7 +96,7 @@ break;
     @php $hasError = $errors->hasAny($errorGroups['informacion-general']); @endphp
     <x-tab-link name="informacion-general" :error="$hasError">
         <i class="fa-solid fa-info me-2"></i>
-        Informacion general
+        Información general
     </x-tab-link>
 
     <!-- tab 4: contacto de emergencia -->
